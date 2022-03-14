@@ -16,12 +16,7 @@ object Farming extends App {
     val cols = line.split(",").map(_.trim())
     pricesMap ++= Map(cols(0) -> (cols(1), cols(2).toFloat))
   }
-
-  def mergeMap[A, B](ms: List[Map[A, B]])(f: (B, B) => B): Map[A, B] =
-    (Map[A, B]() /: (for (m <- ms; kv <- m) yield kv)) { (a, kv) =>
-      a + (if (a.contains(kv._1)) kv._1 -> f(a(kv._1), kv._2) else kv)
-    }
-
+  
   val dateGatherer = codeMap.groupBy(m => (m._1, m._2._3.dropRight(3))).map(p => (p._1._2, p._1._1) -> (p._2.map(_._2._2).sum))
 
   val perMonth = dateGatherer.toList.sortBy(_._1).map(v => v._1._1 -> (v._1._2, v._2)).groupBy(m => m._1).view.mapValues(v => v.maxBy(_._2._2)).toList.sortBy(_._1).map(m => m._1 -> m._2._2)
@@ -64,12 +59,12 @@ object Farming extends App {
   val some4 = earningPerDay.groupBy(_._1.dropRight(3)).map(m => m._1 -> m._2.values.toList)
   println(some4)
 
-  val allEarnersPerMonth = some4.map(m => m._1 -> mergeMap(m._2)((v1, v2) => v1 + v2))
+  val allEarnersPerMonth = some4.map(m => m._1 -> m._2.flatten.groupMapReduce(_._1)(_._2)(_ + _))
   //Below is the list of best earners per month
   println("Below is the list of best earners per month")
   println(allEarnersPerMonth.toList.sortBy(_._1).map(v => v._1 -> (v._2.maxBy(_._2))))
   val some5 = earningPerDay.groupBy(_._1.dropRight(6)).map(m => m._1 -> m._2.values.toList)
-  val allEarnersOverall = some5.map(m => m._1 -> mergeMap(m._2)((v1, v2) => v1 + v2))
+  val allEarnersOverall = some5.map(m => m._1 -> m._2.flatten.groupMapReduce(_._1)(_._2)(_ + _))
 
   // best earners overall
   println("best earners overall is :- ")
