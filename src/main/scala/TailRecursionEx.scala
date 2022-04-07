@@ -21,6 +21,15 @@ object Recursions extends App{
     else concatenateString((x - 1), s, a + s)
 
   println(concatenateString(3, "shubham", ""))
+  
+  def fibonacii(x: Int, acc: Int, acc2: Int): Int = {
+    //println(x, x + (x - 1))
+    if (x == 0) acc
+    else fibonacii((x-1), acc + x, acc2 + (x-1))
+  }
+
+  print(fibonacii(5, 0, 0))
+
 
 
   //Tail Recursion
