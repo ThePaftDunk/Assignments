@@ -2,6 +2,7 @@ package com.test.FirstScala
 
 object Factorial extends App {
 
+  @tailrec
   def aFunction( b: Int, m: Int = 1): Int = {
     if (b<= 0) m else aFunction(b - 1 , b * m)
   }
