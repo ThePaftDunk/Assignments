@@ -1,4 +1,6 @@
-Q. You are given an ordered List “l” of objects of generic type <T>.
+*Problem Statement*
+
+You are given an ordered List “l” of objects of generic type <T>.
   a. Implement a method “l.size()” that returns the size of the list using Recursion (dont use built in length method)
   b. Define a generic Comparator class Comparator<T, T> with one method - “compare(T o1, T o2)” that returns -1, 0 and 1 depending on whether o1 is less than, equal to or greater than o2.
   c. Implement a method named “l.sort(Comparator<T, T> comparator)” that returns a sorted list based on the passed in comparator. Do not use any built in sort method of the list class or any SDK sorting method. You may implement bubble sort or selection sort.
