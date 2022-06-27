@@ -14,6 +14,8 @@ class genTypeTest extends AnyFunSuite{
   test("genTypeTest.BinarySearch.binarySearch") {
     inputList.foreach( list =>
     assert(com.Assignment.genType.BinarySearch(list._1).binarySearch(list._2) === list._3))
+
+    assert(com.Assignment.genType.BinarySearch(List("abc", "efg", "jkl", "mno")).binarySearch("efg") === 1)
   }
 
   test("genTypeTest.CustomSorted") {
