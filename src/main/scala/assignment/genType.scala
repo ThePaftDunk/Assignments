@@ -40,19 +40,19 @@ object genType extends App {
     }
   }
 
-  implicit class BinarySearch(val values: List[Int]) {
-    def binarySearch(target: Int): Int = {
+  implicit class BinarySearch[A](val values: List[A])(implicit ord: Ordering[A]) {
+    def binarySearch(target: A): Int = {
       @tailrec
-      def searchList(list: List[Int], target: Int, min: Int, max: Int): Int = {
+      def searchList(list: List[A], min: Int, max: Int): Int = {
         if(min >= max) return -1
         val mid = min + (max - min) / 2
         list(mid) match {
-          case m if(m == target) => mid
-          case m if(m > target) => searchList(list, target, min, mid)
-          case _ => searchList(list, target, mid, max)
+          case m if list(mid) == target => mid
+          case m if ord.gt(list(mid), target) => searchList(list, min, mid)
+          case _ => searchList(list, mid, max)
         }
       }
-      searchList(values, target, 0, values.length - 1)
+      searchList(values, 0, values.length - 1)
     }
   }
 
