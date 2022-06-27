@@ -13,17 +13,17 @@ object genType extends App {
     }
   }
 
-  implicit class CustomSorted(val s: ArrayBuffer[Int]) {
-    def customSort: ArrayBuffer[Int] = {
+  implicit class CustomSorted[A](val s: ArrayBuffer[A])(implicit ord: Ordering[A]) {
+    def customSort: ArrayBuffer[A] = {
 
       @tailrec
-      def insideSort(arrBuf: ArrayBuffer[Int],acc: ArrayBuffer[Int], count: Int): ArrayBuffer[Int] = {
+      def insideSort(arrBuf: ArrayBuffer[A],acc: ArrayBuffer[A], count: Int): ArrayBuffer[A] = {
         arrBuf match {
           case i if (s.length == count) => acc
           case i if (arrBuf.length == 1) => {
             acc.append(arrBuf.head)
           }
-          case i if (arrBuf.head > arrBuf.tail.min) => {
+          case i if ord.gt(arrBuf.head , arrBuf.tail.min) => {
             val minPos = arrBuf.indexOf(arrBuf.tail.min)
             acc.append(arrBuf.tail.min)
             arrBuf.insert(minPos, arrBuf.head)
@@ -36,7 +36,7 @@ object genType extends App {
           }
         }
       }
-      insideSort(s,ArrayBuffer[Int](), 0)
+      insideSort(s,ArrayBuffer[A](), 0)
     }
   }
 
