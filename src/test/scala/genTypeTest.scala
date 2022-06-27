@@ -30,9 +30,15 @@ class genTypeTest extends AnyFunSuite{
     )
   }
 
-  test("compareTest"){
-    val compareTest = new ComparatorClass
-    assert(compareTest.compare(4,5) === -1)
+    test("compareTest"){
+    val compareTestInts = new ComparatorClass[Int]
+    assert(compareTestInts.compare(4,5) === -1)
+    assert(compareTestInts.compare(10,8) === 1)
+
+
+    val compareTestStrings = new ComparatorClass[String]
+    assert(compareTestStrings.compare("abc", "xyz") === -1)
+    assert(compareTestStrings.compare("xyz", "aaa") === 1)
   }
 
 }
